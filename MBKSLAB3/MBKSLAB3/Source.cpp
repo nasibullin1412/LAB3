@@ -279,7 +279,7 @@ void readGraph(struct graphG6* elem, FILE* fin)
 	fseek(fin, 0, SEEK_SET);
 	elem->weightMatrix = new int* [matrixRow];
 	elem->max = 0;
-	elem->min = 0;
+	//elem->min = 0;
 	for (int i = 0; i < matrixRow; i++)
 	{
 		elem->weightMatrix[i] = new int[matrixRow];
@@ -410,7 +410,7 @@ void max_min(struct graphG6* elem)
 	v[first - 1] = false;
 	int max = 0;
 	int maxIdx = 0;
-	elem->min -= 1;
+	//elem->min -= 1;
 	cout << "S { ";
 	for (int k = 0; k < counts - 1; k++)
 	{
@@ -448,7 +448,7 @@ void max_min(struct graphG6* elem)
 	cout << endl << endl;
 	v[maxIdx] = false;
 	s[1] = maxIdx;
-	max = elem->min;
+	max = -10000;
 	maxIdx = 0;
 	for (int i = 0; i < matrixRow - 2; i++)
 	{
@@ -489,7 +489,7 @@ void max_min(struct graphG6* elem)
 		s[counts] = maxIdx;
 		counts++;
 		v[maxIdx] = false;
-		max = elem->min;
+		max = -10000;
 		cout << "D: ";
 		for (int i = 0; i < matrixRow; i++)
 		{
@@ -694,8 +694,8 @@ void menu()
 		system("cls");
 		cout << "Choose lab, wich you want check" << endl;
 		cout << "1. Lab 2" << endl;
-		cout << "3. Lab 3" << endl;
-		cout << "5. Lab 4" << endl;
+		cout << "2. Lab 3" << endl;
+		cout << "3. Lab 4" << endl;
 		cout << "4. Exit" << endl;
 		cout << "Your choice: ";
 		char choice = get_input("1234");
@@ -766,7 +766,7 @@ void menu()
 			system("pause");
 			break;
 		}
-		case 2:
+		case '2':
 		{
 			struct graphG6* firstGraph = new struct graphG6[1];
 			struct graphG6* secondGraph = new struct graphG6[1];
@@ -810,7 +810,7 @@ void menu()
 			system("pause");
 			break;
 		}
-		case 3:
+		case '3':
 		{
 			struct network* netw = new struct network[sizeof(struct network)];
 			cout << "Enter file name" << endl;
@@ -828,6 +828,11 @@ void menu()
 			delete netw;
 			system("pause");
 		}
+		case '4':
+		{
+			cout << "End programm..." << endl;
+			return;
+		}
 		}
 	}
 }
@@ -836,5 +841,6 @@ void menu()
 int main()
 {
 	menu();
+	system("pause");
 	return 0;
 }
