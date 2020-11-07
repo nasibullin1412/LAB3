@@ -3,23 +3,7 @@
 #include <fstream>
 #include <cstdio>
 #include <list>
-#define INF 100000
-using namespace std;
-
-int numEd = 0;
-
-char get_input(const char* mask)
-{
-	char res = 0;
-	while (1) {
-		res = tolower(getchar());
-		while (getchar() != '\n');
-		if (strchr(mask, res)) return res;
-		cout << "No such command\nYour choice: ";
-	}
-}
-
-/*lab 2*/
+/*
 struct edge
 {
 	int first;
@@ -142,7 +126,7 @@ void DFS(int st, bool* visited, struct graphG4* elem)
 		}
 }
 
-
+/*
 void push_task(struct edge* t)
 {
 	t->next = 0;
@@ -244,10 +228,10 @@ void search_min_krusk(struct graphG5* elem)
 		}
 	}
 }
-/*lab 2*/
+/*lab 2
 
 
-/*lab 3*/
+/*lab 3
 
 struct graphG6
 {
@@ -289,7 +273,7 @@ void readGraph(struct graphG6* elem, FILE* fin)
 			/*if (elem->weightMatrix[i][j] > elem->max)
 			{
 				elem->max = elem->weightMatrix[i][j];
-			}*/
+			}
 			if (elem->weightMatrix[i][j] < elem->min)
 			{
 				elem->min = elem->weightMatrix[i][j];
@@ -431,7 +415,7 @@ void max_min(struct graphG6* elem)
 		else
 		{
 			elem->d[i] = elem->min;
-		}*/
+		}
 		elem->p[i] = first - 1;
 	}
 	cout << "D: ";
@@ -520,10 +504,10 @@ void max_min(struct graphG6* elem)
 	cout << "Total weight: " << elem->d[second - 1] << endl;
 }
 
-/*end lab3*/
+/*end lab3
 
 
-/*lab 4*/
+/*lab 4
 struct network
 {
 	int** bandwitdth;
@@ -684,7 +668,7 @@ void preparation_func(struct network* elem)
 	cout << endl << endl;
 	cout << "Значение максимального потока в сети: " << result << endl;
 }
-/*lab 4 end*/
+/*lab 4 end
 
 
 void menu()
@@ -843,4 +827,23 @@ int main()
 	menu();
 	system("pause");
 	return 0;
+}*/
+
+
+/*#include "top.h"
+#include "graph.h"
+#include "ordinarygraph.h"
+#include "result.h"
+#include "weighet.h"
+#include "network.h"
+#include "network.h"*/
+
+#include "menu.h"
+
+int main()
+{
+	Menu object;
+	object.CommunUser();
+	return 0;
 }
+
