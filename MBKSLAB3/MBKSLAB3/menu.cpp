@@ -13,7 +13,7 @@ Menu::Menu()
 	this->network_ = network;
 }
 
-char Menu::get_input(const char* mask)
+char Menu::GetInput(const char* mask)
 {
 	char res = 0;
 	while (1) {
@@ -30,12 +30,12 @@ bool Menu::ReadGraph(Graph& graph)
 	if (graph.IsReaded())
 	{
 		cout << "Do you want read this graph again (y/n): ";
-		char choice = this->get_input("yn");
+		char choice = this->GetInput("yn");
 		if (choice == 'n')
 		{
 			return true;
 		}
-		graph.ClearResult();
+		graph.CleanResult();
 	}
 	if (!graph.ReadGraph())
 	{
@@ -45,9 +45,9 @@ bool Menu::ReadGraph(Graph& graph)
 	return true;
 }
 
-void Menu::DoActionWithGraph(IResult& graph, const char idx)
+bool Menu::DoActionWithGraph(IResult& graph, const char idx)
 {
-	graph.DoActions(idx);
+	return graph.DoActions(idx);
 }
 
 void Menu::ShowCapbility(IResult& graph)
@@ -62,7 +62,7 @@ void Menu::PrintToConsole(IResult& graph)
 
 void Menu::ClearResult(IResult &graph)
 {
-	graph.ClearResult();
+	graph.CleanResult();
 }
 
 void Menu::CommunUser()
@@ -72,8 +72,9 @@ void Menu::CommunUser()
 
 		system("cls");
 		cout << this->menu;
-		char choice = this->get_input("1234");
+		char choice = this->GetInput("1234");
 		char idx = 0;
+		bool right = true;
 		switch (choice)
 		{
 		case '1': 
@@ -83,28 +84,28 @@ void Menu::CommunUser()
 			{
 				break;
 			}
-			while (idx != '5')
+			while (idx != '4')
 			{
 				this->ShowCapbility(this->ordinary_graph_);
-				idx = this->get_input("12345");
+				idx = this->GetInput("12345");
 				switch (idx)
 				{
 				case '3':
 				{
-					this->ClearResult(this->ordinary_graph_);
+					this->PrintToConsole(this->ordinary_graph_);
 					break;
 				}
 				case '4':
 				{
-					this->PrintToConsole(this->ordinary_graph_);
-					break;
-				}
-				case '5':
-				{
 					break;
 				}
 				default:
-					this->DoActionWithGraph(this->ordinary_graph_, idx);
+					right = this->DoActionWithGraph(this->ordinary_graph_, idx);
+				}
+				if (!right)
+				{
+					system("pause");
+					break;
 				}
 			}
 			break;
@@ -116,28 +117,28 @@ void Menu::CommunUser()
 			{
 				break;
 			}
-			while (idx != '4')
+			while (idx != '3')
 			{
 				this->ShowCapbility(this->weight_graph_);
-				idx = this->get_input("1234");
+				idx = this->GetInput("1234");
 				switch (idx)
 				{
 				case '2':
 				{
-					this->ClearResult(this->weight_graph_);
+					this->PrintToConsole(this->weight_graph_);
 					break;
 				}
 				case '3':
 				{
-					this->PrintToConsole(this->weight_graph_);
-					break;
-				}
-				case '4':
-				{
 					break;
 				}
 				default:
-					this->DoActionWithGraph(this->weight_graph_, idx);
+					right = this->DoActionWithGraph(this->weight_graph_, idx);
+				}
+				if (!right)
+				{
+					system("pause");
+					break;
 				}
 			}
 			break;
@@ -149,28 +150,28 @@ void Menu::CommunUser()
 			{
 				break;
 			}
-			while (idx != '6')
+			while (idx != '5')
 			{
 				this->ShowCapbility(this->network_);
-				char idx = this->get_input("123456");
+				idx = this->GetInput("123456");
 				switch (idx)
 				{
 				case '4':
 				{
-					this->ClearResult(this->network_);
+					this->PrintToConsole(this->network_);
 					break;
 				}
 				case '5':
 				{
-					this->PrintToConsole(this->network_);
-					break;
-				}
-				case '6':
-				{
 					break;
 				}
 				default:
-					this->DoActionWithGraph(this->network_, idx);
+					right = this->DoActionWithGraph(this->network_, idx);
+				}
+				if (!right)
+				{
+					system("pause");
+					break;
 				}
 			}
 			break;
@@ -185,7 +186,4 @@ void Menu::CommunUser()
 Menu::~Menu()
 {
 	this->menu.~basic_string();
-	this->network_.~Network();
-	this->ordinary_graph_.~OrdinaryGraph();
-	this->weight_graph_.~WeightGraph();
 }

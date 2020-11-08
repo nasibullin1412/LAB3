@@ -12,12 +12,12 @@ public:
 	bool FindMaxFlow();
 	bool FordBelman();
 	void virtual Show—apabilities();
-	bool virtual DoActions(char idx);
+	bool virtual DoActions(const char idx);
 	void virtual PrintResultToConsole();
-	void virtual ClearResult();
+	void virtual CleanResult();
 private:
 	int* parent_ford_belman_;
-	int* destination_max_min_;
+	int* distance_max_min_;
 	size_t* parent_max_min_;
 	int** band_width_;
 	int max;

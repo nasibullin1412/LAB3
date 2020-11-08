@@ -17,7 +17,7 @@ public:
 	void CommunUser();
 	bool ReadGraph(Graph& graph);
 	void ShowCapbility(IResult &graph);
-	void DoActionWithGraph(IResult& graph,const char idx);
+	bool DoActionWithGraph(IResult& graph,const char idx);
 	void PrintToConsole(IResult& graph);
 	void ClearResult(IResult& graph);
 
@@ -26,7 +26,7 @@ private:
 	WeightGraph weight_graph_;
 	OrdinaryGraph ordinary_graph_;
 	Network network_;
-	char get_input(const char* mask);
+	char GetInput(const char* mask);
 };
 
 

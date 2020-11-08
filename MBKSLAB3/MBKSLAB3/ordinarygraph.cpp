@@ -84,12 +84,11 @@ void OrdinaryGraph::Show—apabilities()
 	cout << "\nYou can do with this graph: " << endl;
 	cout << "1. Find skeleton" << endl;
 	cout << "2. Count degree" << endl;
-	cout << "3. Clear result" << endl;
-	cout << "4. Write result to console" << endl;
-	cout << "5. Exit to main menu" << endl;
+	cout << "3. Write result to console" << endl;
+	cout << "4. Exit to main menu" << endl;
 }
 
-bool OrdinaryGraph::DoActions(char idx)
+bool OrdinaryGraph::DoActions(const char idx)
 {
 	switch (idx)
 	{
@@ -98,6 +97,10 @@ bool OrdinaryGraph::DoActions(char idx)
 		if (!this->is_find_skeleton_)
 		{
 			this->is_find_skeleton_ = this->FindSkeleton();
+			if (!this->is_find_skeleton_)
+			{
+				this->CleanResult();
+			}
 			return this->is_find_skeleton_;
 		}
 		return true;
@@ -107,6 +110,10 @@ bool OrdinaryGraph::DoActions(char idx)
 		if (!this->is_count_edge_)
 		{
 			this->is_count_edge_ = this->CountDeg();
+			if (!this->is_count_edge_)
+			{
+				this->CleanResult();
+			}
 			return this->is_count_edge_;
 		}
 		return true;
@@ -142,9 +149,43 @@ void OrdinaryGraph::PrintResultToConsole()
 	}
 }
 
-void OrdinaryGraph::ClearResult()
+void OrdinaryGraph::CleanResult()
 {
-	this->~OrdinaryGraph();
+	if (this->graph_skeleton_)
+	{
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->graph_skeleton_[i];
+		}
+		delete[] this->graph_skeleton_;
+		this->graph_skeleton_ = nullptr;
+	}
+	if (this->tops_deg_)
+	{
+		delete this->tops_deg_;
+		this->tops_deg_ = nullptr;
+	}
+	this->is_count_edge_ = false;
+	this->is_find_skeleton_ = false;
+	if (this->top_array != nullptr)
+	{
+		for (unsigned int i = 0; i < this->matrix_row_; i++)
+		{
+			this->top_array[i].~Top();
+		}
+		this->top_array = nullptr;
+	}
+	if (this->graph_matrix_ != nullptr)
+	{
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->graph_matrix_[i];
+		}
+		delete[] this->graph_matrix_;
+		graph_matrix_ = nullptr;
+	}
+	this->matrix_row_ = 0;
+	this->numb_edge_ = 0;
 }
 
 
@@ -152,7 +193,11 @@ OrdinaryGraph::~OrdinaryGraph()
 {
 	if (this->graph_skeleton_)
 	{
-		delete this->graph_skeleton_;
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->graph_skeleton_[i];
+		}
+		delete[] this->graph_skeleton_;
 		this->graph_skeleton_ = nullptr;
 	}
 	if (this->tops_deg_)

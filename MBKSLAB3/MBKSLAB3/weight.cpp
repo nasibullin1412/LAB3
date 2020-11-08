@@ -47,6 +47,10 @@ bool WeightGraph::MinSkeletonKraskal()
 	this->adj_matrix_skeleton_ = new size_t* [this->matrix_row_];
 	if (this->adj_matrix_skeleton_ == nullptr)
 	{
+		if (colors)
+		{
+			delete[] colors;
+		}
 		cout << "Memory Error" << endl;
 		return false;
 	}
@@ -55,6 +59,10 @@ bool WeightGraph::MinSkeletonKraskal()
 		this->adj_matrix_skeleton_[i] = new size_t[this->matrix_row_];
 		if (this->adj_matrix_skeleton_[i] == nullptr)
 		{
+			if (colors)
+			{
+				delete[] colors;
+			}
 			cout << "Memory Error" << endl;
 			return false;
 		}
@@ -128,7 +136,6 @@ bool WeightGraph::MinSkeletonKraskal()
 			}
 		}
 	}
-	//cout << this->tot_min_weight_;
 	if (colors)
 	{
 		delete[] colors;
@@ -146,14 +153,7 @@ void WeightGraph::PrintResultToConsole()
 	{
 		for (size_t j = 0; j < this->matrix_row_; j++)
 		{
-			if (this->adj_matrix_skeleton_[i][j] != 0)
-			{
-				cout << this->graph_matrix_[i][j];
-			}
-			else
-			{
-				cout << '0' << endl;
-			}
+			cout << this->adj_matrix_skeleton_[i][j];
 			cout << " ";
 		}
 		cout << endl;
@@ -165,12 +165,11 @@ void WeightGraph::ShowÑapabilities()
 {
 	cout << "\nYou can do with this graph: " << endl;
 	cout << "1. Find min skeleton of graph by Kruskal alghoritm" << endl;
-	cout << "2. Clear result" << endl;
-	cout << "3. Write result to console" << endl;
-	cout << "4. Exit to main menu" << endl;
+	cout << "2. Write result to console" << endl;
+	cout << "3. Exit to main menu" << endl;
 }
 
-bool WeightGraph::DoActions(char idx)
+bool WeightGraph::DoActions(const char idx)
 {
 	switch (idx)
 	{
@@ -179,6 +178,10 @@ bool WeightGraph::DoActions(char idx)
 		if (!this->is_find_skeleton_)
 		{
 			this->is_find_skeleton_ = this->MinSkeletonKraskal();
+			if (!this->is_find_skeleton_)
+			{
+				this->CleanResult();
+			}
 			return this->is_find_skeleton_;
 		}
 		return true;
@@ -190,9 +193,46 @@ bool WeightGraph::DoActions(char idx)
 }
 
 
-void WeightGraph::ClearResult()
+void WeightGraph::CleanResult()
 {
-	this->~WeightGraph();
+	if (this->edge_list_)
+	{
+		unsigned int size = this->matrix_row_ * this->matrix_row_ / 2;
+		for (size_t i = 0; i < size; i++)
+		{
+			edge_list_[i].~Edge();
+		}
+		this->edge_list_ = nullptr;
+	}
+	if (this->adj_matrix_skeleton_)
+	{
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->adj_matrix_skeleton_[i];
+		}
+		delete[] this->adj_matrix_skeleton_;
+	}
+	this->numb_edge_ = 0;
+	this->is_find_skeleton_ = false;
+	if (this->top_array != nullptr)
+	{
+		for (unsigned int i = 0; i < this->matrix_row_; i++)
+		{
+			this->top_array[i].~Top();
+		}
+		this->top_array = nullptr;
+	}
+	if (this->graph_matrix_ != nullptr)
+	{
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->graph_matrix_[i];
+		}
+		delete[] this->graph_matrix_;
+		graph_matrix_ = nullptr;
+	}
+	this->matrix_row_ = 0;
+	this->numb_edge_ = 0;
 }
 
 
@@ -207,10 +247,15 @@ WeightGraph::~WeightGraph()
 		{
 			edge_list_[i].~Edge();
 		}
+		this->edge_list_ = nullptr;
 	}
 	if (this->adj_matrix_skeleton_)
 	{
-		delete this->adj_matrix_skeleton_;
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->adj_matrix_skeleton_[i];
+		}
+		delete[] this->adj_matrix_skeleton_;
 	}
 	this->numb_edge_ = 0;
 	this->is_find_skeleton_ = false;

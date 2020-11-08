@@ -6,7 +6,7 @@ using namespace std;
 
 Graph::Graph()
 {
-	this->top_array = new Top[100];
+	this->top_array = nullptr;
 	if (top_array == nullptr)
 	{
 		top_array = nullptr;
@@ -52,10 +52,20 @@ bool Graph::ReadGraph()
 	fin.seekg(0);
 
 	this->graph_matrix_ = new int* [this->matrix_row_];
+	if (this->graph_matrix_ == nullptr)
+	{
+		cout << "Memory Error";
+		return false;
+	}
 	
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		this->graph_matrix_[i] = new int[this->matrix_row_];
+		if (this->graph_matrix_[i] == nullptr)
+		{
+			cout << "Memory Error";
+			return false;
+		}
 		for (size_t j = 0; j < this->matrix_row_; j++)
 		{
 			char word[myconst::max_word_size] = { '\0' };
@@ -64,9 +74,19 @@ bool Graph::ReadGraph()
 		}
 	}
 
+	this->top_array = new Top[this->matrix_row_];
+	if (this->top_array == nullptr)
+	{
+		cout << "Memory Error";
+		return false;
+	}
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		top_array[i].Init(this->matrix_row_, i);
+		if (!top_array[i].Init(this->matrix_row_, i))
+		{
+			cout << "Memory Error";
+			return false;
+		}
 	}
 
 	cout << "Matrix, wich was readed: \n";
@@ -100,10 +120,15 @@ Graph::~Graph()
 		{
 			this->top_array[i].~Top();
 		}
+		this->top_array = nullptr;
 	}
 	if (this->graph_matrix_ != nullptr)
 	{
-		delete graph_matrix_;
+		for (size_t i = 0; i < this->matrix_row_; i++)
+		{
+			delete[] this->graph_matrix_[i];
+		}
+		delete[] this->graph_matrix_;
 		graph_matrix_ = nullptr;
 	}
 	this->matrix_row_ = 0;

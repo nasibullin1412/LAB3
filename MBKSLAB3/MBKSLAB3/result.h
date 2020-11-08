@@ -6,9 +6,9 @@ class IResult
 {
 public:
 	virtual void Show—apabilities() = 0;
-	virtual bool DoActions(char idx) = 0;
+	virtual bool DoActions(const char idx) = 0;
 	virtual void PrintResultToConsole() = 0;;
-	virtual void ClearResult() = 0;
+	virtual void CleanResult() = 0;
 
 };
 

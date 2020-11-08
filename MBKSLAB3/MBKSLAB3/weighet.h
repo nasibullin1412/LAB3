@@ -15,9 +15,9 @@ public:
 
 
 	void virtual PrintResultToConsole();
-	virtual void Show—apabilities() ;
-	virtual bool DoActions(char idx);
-	void virtual ClearResult();
+	void virtual Show—apabilities() ;
+	bool virtual DoActions(const char idx);
+	void virtual CleanResult();
 
 private:
 	Edge *edge_list_;

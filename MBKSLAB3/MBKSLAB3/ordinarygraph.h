@@ -13,9 +13,9 @@ public:
 	bool FindSkeleton();
 	bool CountDeg();
 	virtual void Show—apabilities();
-	virtual bool DoActions(char idx);
+	virtual bool DoActions(const char idx);
 	virtual void PrintResultToConsole();
-	virtual void ClearResult();
+	virtual void CleanResult();
 
 private:
 	unsigned short** graph_skeleton_;
