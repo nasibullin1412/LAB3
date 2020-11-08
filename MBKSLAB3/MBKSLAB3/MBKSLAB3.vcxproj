@@ -158,6 +158,13 @@
     <ClInclude Include="top.h" />
     <ClInclude Include="weighet.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="fordBel.txt" />
+    <Text Include="maxmingr.txt" />
+    <Text Include="maxflow.txt" />
+    <Text Include="ordinarygr.txt" />
+    <Text Include="weightgr.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

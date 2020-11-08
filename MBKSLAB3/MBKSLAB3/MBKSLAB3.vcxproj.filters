@@ -66,4 +66,11 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="maxflow.txt" />
+    <Text Include="weightgr.txt" />
+    <Text Include="ordinarygr.txt" />
+    <Text Include="fordBel.txt" />
+    <Text Include="maxmingr.txt" />
+  </ItemGroup>
 </Project>
