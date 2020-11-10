@@ -42,6 +42,7 @@ bool Menu::ReadGraph(Graph& graph)
 		cout << "Error Read Graph..." << endl;
 		return false;
 	}
+	getchar();
 	return true;
 }
 
