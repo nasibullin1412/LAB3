@@ -3,6 +3,15 @@
 #pragma once
 #include "graph.h"
 
+
+enum NETWORK_DO_ACTIONS
+{
+	FORD_BELMAN_ALGHORITM = '1',
+	FIND_MAX_MIN_PATH,
+	FIND_MAX_FLOW
+};
+
+
 class Network: public Graph
 {
 public:
@@ -28,6 +37,11 @@ private:
 	int FordFalkerson(int v, int dest, bool* visit, int flow);
 	size_t min(const size_t first, const size_t second);
 	int FindMax();
+	void InitAllAndFindSourceDest(size_t &source, size_t &dest);
+	bool CheckSourceDest(const size_t first, const size_t second);
+	bool SetAndCheckVertex(size_t& first, size_t& second);
+	bool PrintPathAndWeight(const size_t first, const size_t second);
+	void PrintArray(const int* array_);
 };
 
 

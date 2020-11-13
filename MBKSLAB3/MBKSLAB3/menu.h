@@ -9,6 +9,29 @@
 #include <iostream>
 using namespace std;
 
+enum MainCases
+{
+	ORDINARY_GRAPH = '1',
+	WEIGHT_GRAPH,
+	NETWORK,
+	EXIT
+};
+
+enum  SpecialCases
+{
+	ORDINARY_PRINT_TO_CONSOLE = '3',
+	ORDINARY_BACK_TO_MAIN_MENU,
+	WEIGHT_PRINT_TO_CONSOLE = '2',
+	WEIGHT_BACK_TO_MENU,
+	NETWORK_PRINT_TO_CONSOLE = '4',
+	NETWORK_BACK_TO_MENU
+};
+
+enum MyEnum
+{
+
+};
+
 class Menu
 {
 public:

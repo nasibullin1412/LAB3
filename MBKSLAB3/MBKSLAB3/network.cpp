@@ -48,6 +48,9 @@ Network::~Network()
 	this->find_max_min_path_ = false;
 }
 
+
+
+
 bool Network::FindMaxMinPath()
 {
 	this->parent_max_min_ = new size_t[this->matrix_row_];
@@ -64,13 +67,9 @@ bool Network::FindMaxMinPath()
 	}
 	size_t first = 0;
 	size_t second = 0;
-	cout << "Enter the vertex the path you want to find from: " << endl;
-	cin >> first;
-	cout << "Enter the vertex the path to which you want to find: " << endl;
-	cin >> second;
-	if (first > this->matrix_row_ || second > this->matrix_row_)
+	
+	if (!this->SetAndCheckVertex(first, second))
 	{
-		cout << "erorr" << endl;
 		return false;
 	}
 	int* max_value_lot = new int[this->matrix_row_+1];
@@ -91,10 +90,11 @@ bool Network::FindMaxMinPath()
 	int max = 0;
 	int maxIdx = 0;
 	cout << "S { ";
-	for (size_t k = 0; k < counts - 1; k++)
+	/*for (size_t k = 0; k < counts - 1; k++)
 	{
 		cout << max_value_lot[k] + 1 << ' ';
-	}
+	}*/
+	PrintArray(max_value_lot);
 	cout << "} " << endl;
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
@@ -106,16 +106,18 @@ bool Network::FindMaxMinPath()
 		}
 	}
 	cout << "D: ";
-	for (size_t i = 0; i < this->matrix_row_; i++)
+	/*for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		cout << this->distance_max_min_[i] << ' ';
-	}
+	}*/
+	PrintArray(this->distance_max_min_);
 	cout << endl;
 	cout << "P: ";
-	for (size_t i = 0; i < this->matrix_row_; i++)
+	/*for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		cout << this->parent_max_min_[i] + 1 << ' ';
-	}
+	}*/
+	PrintArray((int*)this->parent_max_min_);
 	cout << endl << endl;
 	visited[maxIdx] = false;
 	max_value_lot[1] = maxIdx;
@@ -124,10 +126,11 @@ bool Network::FindMaxMinPath()
 	for (size_t i = 0; i < this->matrix_row_ - 2; i++)
 	{
 		cout << "S { ";
-		for (size_t k = 0; k < counts; k++)
+		/*for (size_t k = 0; k < counts; k++)
 		{
 			cout << max_value_lot[k] + 1 << ' ';
-		}
+		}*/
+		this->PrintArray(max_value_lot);
 		cout << "} " << endl;
 		for (size_t k = 0; k < this->matrix_row_; k++)
 		{
@@ -245,12 +248,8 @@ int Network::FordFalkerson(int v, int dest, bool* visit, int flow)
 	return 0;
 }
 
-
-
-bool Network::FindMaxFlow()
+void Network::InitAllAndFindSourceDest(size_t& source, size_t& dest)
 {
-	int dest = -1;
-	int source = -1;
 	bool first = false;
 	bool second = false;
 	for (size_t i = 0; i < this->matrix_row_; i++)
@@ -277,15 +276,34 @@ bool Network::FindMaxFlow()
 		first = false;
 		second = false;
 	}
-	
-	if (source == -1 || dest == -1)
+}
+
+bool Network::CheckSourceDest(const size_t source, const size_t dest)
+{
+	if (source == this->matrix_row_ || dest == this->matrix_row_)
 	{
 		cout << "Source or Destination was not founded" << endl;
+		return false;
+	}
+	return true;
+}
+
+bool Network::FindMaxFlow()
+{
+
+	size_t dest = this->matrix_row_;
+	size_t source = this->matrix_row_;
+	this->InitAllAndFindSourceDest(source, dest);
+
+
+	if (!CheckSourceDest(source, dest))
+	{
 		return false;
 	}
 
 	cout << "Source: " << source + 1 << endl;
 	cout << "Destination: " << dest + 1 << endl;
+	
 	this->max_flow_ = 0;
 	int temp = 0;
 	this->band_width_ = new int* [this->matrix_row_];
@@ -329,22 +347,9 @@ bool Network::FindMaxFlow()
 	return true;
 }
 
-bool Network::FordBelman()
+
+bool Network::SetAndCheckVertex(size_t &first, size_t &second)
 {
-	this->parent_ford_belman_ = new int[this->matrix_row_];
-	if (this->parent_ford_belman_ == nullptr)
-	{
-		cout << "Memory error" << endl;
-		return false;
-	}
-
-	for (size_t i = 0; i < this->matrix_row_; i++)
-	{
-		this->parent_ford_belman_[i] = 0;
-	}
-
-	size_t first = 0;
-	size_t second = 0;
 	cout << "Enter the vertex the path you want to find from: " << endl;
 	cin >> first;
 	cout << "Enter the vertex the path to which you want to find: " << endl;
@@ -354,8 +359,76 @@ bool Network::FordBelman()
 		cout << "erorr" << endl;
 		return false;
 	}
-	bool check = true;
 	--first;
+	return true;
+}
+
+
+bool Network::PrintPathAndWeight(const size_t first, const size_t second)
+{
+	size_t i = second - 1;
+	if (this->top_array[first][second - 1] == myconst::infinity)
+	{
+		cout << "No path was found" << endl;
+		return false;
+	}
+	bool* check_top = new bool[this->matrix_row_];
+	if (check_top == nullptr)
+	{
+		cout << "Memory Error" << endl;
+		return false;
+	}
+	for (size_t j = 0; j < this->matrix_row_; j++)
+	{
+		check_top[j] = false;
+	}
+	while (i != first && !check_top[i])
+	{
+		cout << i + 1 << "<-";
+		check_top[i] = true;
+		i = this->parent_ford_belman_[i];
+	}
+	delete[] check_top;
+	if (i != first)
+	{
+		cout << endl << "Error graph" << endl;
+		return false;
+	}
+	cout << i + 1 << endl;
+	cout << "Total weight: " << this->top_array[first][second - 1] << endl;
+	return true;
+}
+
+void Network::PrintArray(const int* array_)
+{
+	for (size_t i = 0; i < this->matrix_row_; i++)
+	{
+		cout << array_[i]+1 << ' ';
+	}
+}
+
+bool Network::FordBelman()
+{
+	this->parent_ford_belman_ = new int[this->matrix_row_];
+	if (this->parent_ford_belman_ == nullptr)
+	{
+		cout << "Memory error" << endl;
+		return false;
+	}
+	for (size_t i = 0; i < this->matrix_row_; i++)
+	{
+		this->parent_ford_belman_[i] = 0;
+	}
+
+	size_t first = 0;
+	size_t second = 0;
+	if (!this->SetAndCheckVertex(first, second))
+	{
+		return false;
+	}
+	bool check = true;
+	this->top_array[first].Init(this->matrix_row_, first);
+
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		this->top_array[first][i] = this->graph_matrix_[first][i];
@@ -376,10 +449,7 @@ bool Network::FordBelman()
 		cout << this->top_array[first][i] << ' ';
 	}
 	cout << endl; cout << "P: ";
-	for (size_t i = 0; i < this->matrix_row_; i++)
-	{
-		cout << this->parent_ford_belman_[i] + 1 << ' ';
-	}
+	PrintArray(this->parent_ford_belman_);
 	cout << endl << endl;
 	bool change = true;
 	while (change)
@@ -401,36 +471,9 @@ bool Network::FordBelman()
 			}
 		}
 	}
-	int i = second - 1;
-	if (this->top_array[first][second - 1] == myconst::infinity)
-	{
-		cout << "No path was found" << endl;
-		return false;
-	}
-	bool *check_top = new bool[this->matrix_row_];
-	if (check_top == nullptr)
-	{
-		cout << "Memory Error" << endl;
-		return false;
-	}
-	for (size_t j = 0; j < this->matrix_row_; j++)
-	{
-		check_top[j] = false;
-	}
-	while (i != first && !check_top[i])
-	{
-		cout << i + 1 << "<-";
-		check_top[i] = true;
-		i = this->parent_ford_belman_[i];
-	}
-	delete[] check_top;
-	if (i!= first)
-	{
-		cout << endl << "Error graph" << endl;
-		return false;
-	}
-	cout << i + 1 << endl;
-	cout << "Total weight: " << this->top_array[first][second - 1] << endl;
+
+	
+	this->PrintPathAndWeight(first, second);
 	return true;
 }
 
@@ -450,7 +493,7 @@ bool Network::DoActions(const char idx)
 {
 	switch (idx)
 	{
-	case '1':
+	case FORD_BELMAN_ALGHORITM:
 	{
 		if (!this->find_ford_belman)
 		{
@@ -463,7 +506,7 @@ bool Network::DoActions(const char idx)
 		}
 		return true;
 	}
-	case '2':
+	case FIND_MAX_MIN_PATH:
 	{
 		if (!this->find_max_min_path_)
 		{
@@ -476,7 +519,7 @@ bool Network::DoActions(const char idx)
 		}
 		return true;
 	}
-	case '3':
+	case FIND_MAX_FLOW:
 	{
 		if (!this->find_max_flow_)
 		{
@@ -499,7 +542,7 @@ void Network::PrintResultToConsole()
 {
 	if (this->find_ford_belman)
 	{
-		size_t first = -1;
+		size_t first = this->matrix_row_;
 		for (size_t i = 0; i < this->matrix_row_; i++)
 		{
 			size_t j = 0;
@@ -516,7 +559,7 @@ void Network::PrintResultToConsole()
 				break;
 			}
 		}
-		if (first == -1)
+		if (first == this->matrix_row_)
 		{
 			return;
 		}
@@ -603,14 +646,8 @@ void Network::CleanResult()
 	this->find_ford_belman = false;
 	this->find_max_flow_ = false;
 	this->find_max_min_path_ = false;
-	if (this->top_array != nullptr)
-	{
-		for (unsigned int i = 0; i < this->matrix_row_; i++)
-		{
-			this->top_array[i].~Top();
-		}
-		this->top_array = nullptr;
-	}
+	this->top_array.clear();
+
 	if (this->graph_matrix_ != nullptr)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)

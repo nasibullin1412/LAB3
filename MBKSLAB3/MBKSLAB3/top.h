@@ -1,7 +1,7 @@
 #ifndef _TOP_H_
 #define _TOP_H_
 #pragma once
-
+#include <vector>
 class Top
 {
 public:

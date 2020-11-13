@@ -23,7 +23,7 @@ public:
 	bool IsReaded();
 
 protected: 
-	Top* top_array;
+	std::vector<Top> top_array;
 	int** graph_matrix_;
 	size_t matrix_row_;
 	size_t numb_edge_;

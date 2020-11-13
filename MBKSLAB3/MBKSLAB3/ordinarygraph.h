@@ -4,6 +4,11 @@
 
 #include "graph.h"
 
+enum ORDINARY_DO_ACTIONS
+{
+	FIND_SKELETON_ = '1',
+	COUNT_EDGE
+};
 
 class OrdinaryGraph : public Graph
 {

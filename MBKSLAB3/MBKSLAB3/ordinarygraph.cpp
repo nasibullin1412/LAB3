@@ -92,7 +92,7 @@ bool OrdinaryGraph::DoActions(const char idx)
 {
 	switch (idx)
 	{
-	case '1':
+	case FIND_SKELETON_:
 	{
 		if (!this->is_find_skeleton_)
 		{
@@ -105,7 +105,7 @@ bool OrdinaryGraph::DoActions(const char idx)
 		}
 		return true;
 	}
-	case '2':
+	case COUNT_EDGE:
 	{
 		if (!this->is_count_edge_)
 		{
@@ -167,14 +167,8 @@ void OrdinaryGraph::CleanResult()
 	}
 	this->is_count_edge_ = false;
 	this->is_find_skeleton_ = false;
-	if (this->top_array != nullptr)
-	{
-		for (unsigned int i = 0; i < this->matrix_row_; i++)
-		{
-			this->top_array[i].~Top();
-		}
-		this->top_array = nullptr;
-	}
+	this->top_array.clear();
+
 	if (this->graph_matrix_ != nullptr)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)

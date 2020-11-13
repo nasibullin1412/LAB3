@@ -78,7 +78,7 @@ void Menu::CommunUser()
 		bool right = true;
 		switch (choice)
 		{
-		case '1': 
+		case ORDINARY_GRAPH: 
 		{
 
 			if (!ReadGraph(this->ordinary_graph_))
@@ -91,12 +91,12 @@ void Menu::CommunUser()
 				idx = this->GetInput("12345");
 				switch (idx)
 				{
-				case '3':
+				case ORDINARY_PRINT_TO_CONSOLE:
 				{
 					this->PrintToConsole(this->ordinary_graph_);
 					break;
 				}
-				case '4':
+				case ORDINARY_BACK_TO_MAIN_MENU:
 				{
 					break;
 				}
@@ -111,7 +111,7 @@ void Menu::CommunUser()
 			}
 			break;
 		}
-		case '2':
+		case WEIGHT_GRAPH:
 		{
 
 			if (!ReadGraph(this->weight_graph_))
@@ -124,12 +124,12 @@ void Menu::CommunUser()
 				idx = this->GetInput("1234");
 				switch (idx)
 				{
-				case '2':
+				case WEIGHT_PRINT_TO_CONSOLE:
 				{
 					this->PrintToConsole(this->weight_graph_);
 					break;
 				}
-				case '3':
+				case WEIGHT_BACK_TO_MENU:
 				{
 					break;
 				}
@@ -144,7 +144,7 @@ void Menu::CommunUser()
 			}
 			break;
 		}
-		case '3':
+		case NETWORK:
 		{
 
 			if (!ReadGraph(this->network_))
@@ -157,12 +157,12 @@ void Menu::CommunUser()
 				idx = this->GetInput("123456");
 				switch (idx)
 				{
-				case '4':
+				case NETWORK_PRINT_TO_CONSOLE:
 				{
 					this->PrintToConsole(this->network_);
 					break;
 				}
-				case '5':
+				case NETWORK_BACK_TO_MENU:
 				{
 					break;
 				}
@@ -177,7 +177,7 @@ void Menu::CommunUser()
 			}
 			break;
 		}
-		case '4':
+		case EXIT:
 			return;
 		}
 

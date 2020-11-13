@@ -3,8 +3,14 @@
 #pragma once
 #include "edge.h"
 #include "graph.h"
-
+#include <vector>
 using namespace std;
+
+
+enum WEIGHT_DO_ACTIONS
+{
+	FIND_SKELETON = '1'
+};
 
 class WeightGraph: public Graph
 {
@@ -20,7 +26,7 @@ public:
 	void virtual CleanResult();
 
 private:
-	Edge *edge_list_;
+	std::vector<Edge>edge_list_;
 	size_t** adj_matrix_skeleton_;
 	size_t numb_edge_;
 	int tot_min_weight_;

@@ -4,7 +4,7 @@ using namespace std;
 
 WeightGraph::WeightGraph(): Graph()
 {
-	this->edge_list_ = nullptr;
+	this->edge_list_;
 	this->adj_matrix_skeleton_ = nullptr;
 	this->numb_edge_ = 0;
 	this->tot_min_weight_ = 0;
@@ -14,21 +14,13 @@ WeightGraph::WeightGraph(): Graph()
 void WeightGraph::PushTask(const Edge& new_elem, const size_t size)
 {
 	size_t count = 0;
-	Edge temp;
-	while (count < size && new_elem.GetWeight() >= this->edge_list_[count].GetWeight())
+	while (count < size && new_elem.GetWeight() > this->edge_list_[count].GetWeight())
 	{
 		++count;
 	}
-	temp = edge_list_[count];
-	edge_list_[count] = new_elem;
-	size_t idx = size;
-	while (count < idx)
-	{
-		this->edge_list_[idx] = this->edge_list_[idx - 1];
-		--idx;
-	}
-	++count;
-	this->edge_list_[count] = temp;
+	vector<Edge>::iterator it;
+	it = this->edge_list_.begin();
+	this->edge_list_.insert(it + count, new_elem);
 }
 
 Edge& WeightGraph::PopTask(const size_t &size)
@@ -75,12 +67,6 @@ bool WeightGraph::MinSkeletonKraskal()
 
 	int count = 0;
 	size_t size = 0;
-	this->edge_list_ = new Edge[this->matrix_row_ * this->matrix_row_ / 2];
-	if (this->edge_list_ == nullptr)
-	{
-		cout << "Memory Error" << endl;
-		return false;
-	}
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		colors[i] = i;
@@ -173,7 +159,7 @@ bool WeightGraph::DoActions(const char idx)
 {
 	switch (idx)
 	{
-	case '1':
+	case FIND_SKELETON:
 	{
 		if (!this->is_find_skeleton_)
 		{
@@ -195,15 +181,7 @@ bool WeightGraph::DoActions(const char idx)
 
 void WeightGraph::CleanResult()
 {
-	if (this->edge_list_)
-	{
-		unsigned int size = this->matrix_row_ * this->matrix_row_ / 2;
-		for (size_t i = 0; i < size; i++)
-		{
-			edge_list_[i].~Edge();
-		}
-		this->edge_list_ = nullptr;
-	}
+	this->edge_list_.clear();
 	if (this->adj_matrix_skeleton_)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
@@ -214,14 +192,7 @@ void WeightGraph::CleanResult()
 	}
 	this->numb_edge_ = 0;
 	this->is_find_skeleton_ = false;
-	if (this->top_array != nullptr)
-	{
-		for (unsigned int i = 0; i < this->matrix_row_; i++)
-		{
-			this->top_array[i].~Top();
-		}
-		this->top_array = nullptr;
-	}
+	this->top_array.clear();
 	if (this->graph_matrix_ != nullptr)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
@@ -240,15 +211,7 @@ void WeightGraph::CleanResult()
 
 WeightGraph::~WeightGraph()
 {
-	if (this->edge_list_)
-	{
-		unsigned int size = this->matrix_row_ * this->matrix_row_ / 2;
-		for (size_t i = 0; i < size; i++)
-		{
-			edge_list_[i].~Edge();
-		}
-		this->edge_list_ = nullptr;
-	}
+	this->edge_list_.clear();
 	if (this->adj_matrix_skeleton_)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
