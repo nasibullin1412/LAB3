@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <fstream>
 #include <iostream>
+#include <array>
 using namespace std;
 
 
@@ -19,23 +20,25 @@ Graph::Graph()
 
 bool Graph::ReadGraph()
 {
-	char buffer[myconst::max_file_content] = { '\0' };
-	char name[myconst::max_file_name] = { '\0' };
+	//char buffer[myconst::max_file_content] = { '\0' };
+	//char name[myconst::max_file_name] = { '\0' };
+	array<char, myconst::max_file_content>buffer = { '\0' };
+	array<char, myconst::max_file_name>name = { '\0' };
 	cout << "Enter name of file (less then 100 symbols): " << endl;
-	cin >> name;
-	if (name == nullptr)
+	cin >> name.data();
+	if (name.size())
 	{
 		cout << "Name is very big..." << endl;
 		return false;
 	}
 	ifstream fin;
-	fin.open(name);
+	fin.open(name.data());
 	if (!fin.is_open())
 	{
 		cout << "Error open file" << endl;
 		return false;
 	}
-	fin.getline(buffer, myconst::max_file_content);
+	fin.getline(buffer.data(), myconst::max_file_content);
 	size_t idx = 1;
 	this->matrix_row_++;
 	while (idx != myconst::max_file_content && buffer[idx] != '\0')
