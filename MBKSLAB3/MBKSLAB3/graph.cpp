@@ -7,13 +7,9 @@ using namespace std;
 
 Graph::Graph()
 {
-	/*this->top_array = nullptr;
-	if (top_array == nullptr)
-	{
-		top_array = nullptr;
-	}*/
+
 	this->top_array;
-	this->graph_matrix_ = nullptr;
+	this->graph_matrix_;
 	this->matrix_row_ = 0;
 	this->numb_edge_ = 0;
 }
@@ -22,10 +18,10 @@ Graph::Graph()
 bool Graph::ReadGraph()
 {
 	array<char, myconst::max_file_content>buffer = { '\0' };
-	array<char, myconst::max_file_name>name = { '\0' };
+	std::string name;
 	cout << "Enter name of file (less then 100 symbols): " << endl;
-	cin >> name.data();
-	if (name.size()== 0)
+	cin >> name;
+	if (name.length() > myconst::max_file_name || name.length() == 0)
 	{
 		cout << "Name is very big..." << endl;
 		return false;
@@ -54,43 +50,37 @@ bool Graph::ReadGraph()
 	
 	fin.seekg(0);
 
-	this->graph_matrix_ = new int* [this->matrix_row_];
-	if (this->graph_matrix_ == nullptr)
+	/*this->graph_matrix_ = new int* [this->matrix_row_];
+*/
+	this->graph_matrix_.resize(this->matrix_row_);
+	if (this->graph_matrix_.empty())
 	{
 		cout << "Memory Error";
 		return false;
 	}
-	
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		this->graph_matrix_[i] = new int[this->matrix_row_];
+		/*this->graph_matrix_[i] = new int[this->matrix_row_];
 		if (this->graph_matrix_[i] == nullptr)
+		{
+			cout << "Memory Error";
+			return false;
+		}*/
+		this->graph_matrix_[i].resize(this->matrix_row_);
+		if (this->graph_matrix_[i].empty())
 		{
 			cout << "Memory Error";
 			return false;
 		}
 		for (size_t j = 0; j < this->matrix_row_; j++)
 		{
-			//char word[myconst::max_word_size] = { '\0' };
-			array<char, myconst::max_word_size> word = { '\0' };
-			fin >> word.data();
-			this->graph_matrix_[i][j] = atoi(word.data());
+			string word;
+			fin >> word;
+			this->graph_matrix_[i][j]=atoi(word.c_str());
 		}
 	}
-
-	/*this->top_array = new Top[this->matrix_row_];
-	if (this->top_array == nullptr)
-	{
-		cout << "Memory Error";
-		return false;
-	}*/
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		/*if (!top_array[i].Init(this->matrix_row_, i))
-		{
-			cout << "Memory Error";
-			return false;
-		}*/
 		Top init_top;
 		this->top_array.emplace_back(init_top);
 	}
@@ -109,27 +99,17 @@ bool Graph::ReadGraph()
 
 bool Graph::IsReaded()
 {
-	if (this->graph_matrix_)
-	{
-		return true;
-	}
-	return false;
+	return !this->graph_matrix_.empty();
 }
 
 
 
 Graph::~Graph()
 {
-	/*if (this->top_array != nullptr)
-	{
-		for (unsigned int i = 0; i < this->matrix_row_; i++)
-		{
-			this->top_array[i].~Top();
-		}
-		this->top_array = nullptr;
-	}*/
+
 	this->top_array.clear();
-	if (this->graph_matrix_ != nullptr)
+	this->graph_matrix_.clear();
+	/*if (this->graph_matrix_ != nullptr)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
 		{
@@ -137,7 +117,7 @@ Graph::~Graph()
 		}
 		delete[] this->graph_matrix_;
 		graph_matrix_ = nullptr;
-	}
+	}*/
 	this->matrix_row_ = 0;
 	this->numb_edge_ = 0;
 }

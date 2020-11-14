@@ -5,7 +5,7 @@ using namespace std;
 WeightGraph::WeightGraph(): Graph()
 {
 	this->edge_list_;
-	this->adj_matrix_skeleton_ = nullptr;
+	this->adj_matrix_skeleton_;
 	this->numb_edge_ = 0;
 	this->tot_min_weight_ = 0;
 	this->is_find_skeleton_ = false;
@@ -36,8 +36,9 @@ bool WeightGraph::MinSkeletonKraskal()
 		cout << "Memory Error" << endl;
 		return false;
 	}
-	this->adj_matrix_skeleton_ = new size_t* [this->matrix_row_];
-	if (this->adj_matrix_skeleton_ == nullptr)
+	//this->adj_matrix_skeleton_ = new size_t* [this->matrix_row_];
+	this->adj_matrix_skeleton_.resize(this->matrix_row_);
+	if (this->adj_matrix_skeleton_.empty())
 	{
 		if (colors)
 		{
@@ -48,8 +49,9 @@ bool WeightGraph::MinSkeletonKraskal()
 	}
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		this->adj_matrix_skeleton_[i] = new size_t[this->matrix_row_];
-		if (this->adj_matrix_skeleton_[i] == nullptr)
+		//this->adj_matrix_skeleton_[i] = new size_t[this->matrix_row_];
+		this->adj_matrix_skeleton_[i].resize(this->matrix_row_);
+		if (this->adj_matrix_skeleton_[i].empty())
 		{
 			if (colors)
 			{
@@ -182,18 +184,19 @@ bool WeightGraph::DoActions(const char idx)
 void WeightGraph::CleanResult()
 {
 	this->edge_list_.clear();
-	if (this->adj_matrix_skeleton_)
+	/*if (this->adj_matrix_skeleton_)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
 		{
 			delete[] this->adj_matrix_skeleton_[i];
 		}
 		delete[] this->adj_matrix_skeleton_;
-	}
+	}*/
+	this->adj_matrix_skeleton_.clear();
 	this->numb_edge_ = 0;
 	this->is_find_skeleton_ = false;
 	this->top_array.clear();
-	if (this->graph_matrix_ != nullptr)
+	/*if (this->graph_matrix_ != nullptr)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
 		{
@@ -201,7 +204,8 @@ void WeightGraph::CleanResult()
 		}
 		delete[] this->graph_matrix_;
 		graph_matrix_ = nullptr;
-	}
+	}*/
+	this->graph_matrix_.clear();
 	this->matrix_row_ = 0;
 	this->numb_edge_ = 0;
 }
@@ -212,14 +216,15 @@ void WeightGraph::CleanResult()
 WeightGraph::~WeightGraph()
 {
 	this->edge_list_.clear();
-	if (this->adj_matrix_skeleton_)
+	/*if (this->adj_matrix_skeleton_)
 	{
 		for (size_t i = 0; i < this->matrix_row_; i++)
 		{
 			delete[] this->adj_matrix_skeleton_[i];
 		}
 		delete[] this->adj_matrix_skeleton_;
-	}
+	}*/
+	this->adj_matrix_skeleton_.clear();
 	this->numb_edge_ = 0;
 	this->is_find_skeleton_ = false;
 }

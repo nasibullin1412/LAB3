@@ -4,18 +4,18 @@ using namespace std;
 
 OrdinaryGraph::OrdinaryGraph(): Graph()
 {
-	this->graph_skeleton_ = nullptr;
-	this->tops_deg_ = nullptr;
+	this->graph_skeleton_;
+	this->tops_deg_;
 	this->is_count_edge_ = false;
 	this->is_find_skeleton_ = false;
 }
 
-void OrdinaryGraph::Dfs(const size_t numb_top, bool* visited)
+void OrdinaryGraph::Dfs(const size_t numb_top, std::vector<bool> &visited)
 {
 	size_t num_check_top = 0;
 	visited[numb_top] = true;
 	for (num_check_top = 0; num_check_top < this->matrix_row_; num_check_top++)
-		if ((this->graph_matrix_[num_check_top] != 0) && (!visited[num_check_top]))
+		if ((this->graph_matrix_[numb_top][num_check_top] != 0) && (!visited[num_check_top]))
 		{
 			cout << numb_top + 1 << "-" << num_check_top + 1 << " ";
 			this->Dfs(num_check_top, visited);
@@ -27,13 +27,13 @@ void OrdinaryGraph::Dfs(const size_t numb_top, bool* visited)
 
 bool OrdinaryGraph::FindSkeleton()
 {
-	bool* visited = new bool[this->matrix_row_];
-	this->graph_skeleton_ = new unsigned short* [this->matrix_row_];
-	if (visited == nullptr && this->graph_skeleton_ == nullptr)
+	std::vector<bool>visited(this->matrix_row_);
+	this->graph_skeleton_.resize(this->matrix_row_);
+	if (visited.empty() && this->graph_skeleton_.empty())
 	{
-		if (visited)
+		if (visited.empty())
 		{
-			delete[] visited;
+			visited.clear();
 		}
 		cout << "Memory error" << endl;
 		return false;
@@ -41,7 +41,12 @@ bool OrdinaryGraph::FindSkeleton()
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		visited[i] = false;
-		this->graph_skeleton_[i] = new unsigned short[this->matrix_row_];
+		this->graph_skeleton_[i].resize(this->matrix_row_);
+		if (this->graph_skeleton_[i].empty())
+		{
+			cout << "Memory error" << endl;
+			return false;
+		}
 		for (size_t j = 0; j < this->matrix_row_; j++)
 		{
 			this->graph_skeleton_[i][j] = 0;
@@ -52,14 +57,14 @@ bool OrdinaryGraph::FindSkeleton()
 	{
 		this->Dfs(i, visited);
 	}
-	delete[] visited;
+	visited.clear();
 	return true;
 }
 
 bool OrdinaryGraph::CountDeg()
 {
-	this->tops_deg_ = new unsigned short[this->matrix_row_ + 1];
-	if (this->tops_deg_ == nullptr)
+	this->tops_deg_.resize(this->matrix_row_ + 1);
+	if (this->tops_deg_.empty())
 	{
 		cout << "Memory error" << endl;
 		return false;
@@ -151,33 +156,16 @@ void OrdinaryGraph::PrintResultToConsole()
 
 void OrdinaryGraph::CleanResult()
 {
-	if (this->graph_skeleton_)
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->graph_skeleton_[i];
-		}
-		delete[] this->graph_skeleton_;
-		this->graph_skeleton_ = nullptr;
-	}
-	if (this->tops_deg_)
-	{
-		delete this->tops_deg_;
-		this->tops_deg_ = nullptr;
-	}
+	
+	this->graph_skeleton_.clear();
+	
+	this->tops_deg_.clear();
 	this->is_count_edge_ = false;
 	this->is_find_skeleton_ = false;
 	this->top_array.clear();
 
-	if (this->graph_matrix_ != nullptr)
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->graph_matrix_[i];
-		}
-		delete[] this->graph_matrix_;
-		graph_matrix_ = nullptr;
-	}
+
+	this->graph_matrix_.clear();
 	this->matrix_row_ = 0;
 	this->numb_edge_ = 0;
 }
@@ -185,20 +173,9 @@ void OrdinaryGraph::CleanResult()
 
 OrdinaryGraph::~OrdinaryGraph()
 {
-	if (this->graph_skeleton_)
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->graph_skeleton_[i];
-		}
-		delete[] this->graph_skeleton_;
-		this->graph_skeleton_ = nullptr;
-	}
-	if (this->tops_deg_)
-	{
-		delete this->tops_deg_;
-		this->tops_deg_ = nullptr;
-	}
+
+	this->graph_skeleton_.clear();
+	this->tops_deg_.clear();
 	this->is_count_edge_ = false;
 	this->is_find_skeleton_ = false;
 }

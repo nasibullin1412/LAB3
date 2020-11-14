@@ -27,7 +27,8 @@ public:
 
 private:
 	std::vector<Edge>edge_list_;
-	size_t** adj_matrix_skeleton_;
+	//size_t** 
+	std::vector<std::vector<size_t> > adj_matrix_skeleton_;
 	size_t numb_edge_;
 	int tot_min_weight_;
 	bool is_find_skeleton_;

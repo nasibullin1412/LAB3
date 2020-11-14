@@ -45,7 +45,7 @@ Top::~Top()
 {
 	if (this->distance_to_oth_)
 	{
-		delete this->distance_to_oth_;
+		delete[] this->distance_to_oth_;
 		this->distance_to_oth_ = nullptr;
 	}
 	this->numb_top_ = 0;

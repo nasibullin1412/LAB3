@@ -13,15 +13,19 @@ Menu::Menu()
 	this->network_ = network;
 }
 
-char Menu::GetInput(const char* mask)
+char Menu::GetInput(const std::string &mask)
 {
-	char res = 0;
-	while (1) {
-		res = tolower(getchar());
-		while (getchar() != '\n');
-		if (strchr(mask, res)) return res;
-		cout << "No such command\nYour choice: ";
+	std::string res;
+	cin >> res;
+	if (res.length() == 1)
+	{
+		if (mask.find(res) != std::string::npos)
+		{
+			return res[0];
+		}
 	}
+	cout << "No such command\nYour choice: ";
+	return 0;
 }
 
 
@@ -42,7 +46,6 @@ bool Menu::ReadGraph(Graph& graph)
 		cout << "Error Read Graph..." << endl;
 		return false;
 	}
-	getchar();
 	return true;
 }
 

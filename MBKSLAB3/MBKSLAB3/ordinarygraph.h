@@ -23,11 +23,11 @@ public:
 	virtual void CleanResult();
 
 private:
-	unsigned short** graph_skeleton_;
-	unsigned short* tops_deg_;
+	std::vector<std::vector<unsigned short> >graph_skeleton_;
+	std::vector<unsigned short> tops_deg_;
 	bool is_find_skeleton_;
 	bool is_count_edge_;
-	void Dfs(const size_t numb_top, bool *visited);
+	void Dfs(const size_t numb_top, std::vector<bool>& visited);
 };
 
 

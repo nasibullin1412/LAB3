@@ -27,10 +27,7 @@ enum  SpecialCases
 	NETWORK_BACK_TO_MENU
 };
 
-enum MyEnum
-{
 
-};
 
 class Menu
 {
@@ -49,7 +46,7 @@ private:
 	WeightGraph weight_graph_;
 	OrdinaryGraph ordinary_graph_;
 	Network network_;
-	char GetInput(const char* mask);
+	char GetInput(const std::string  &mask);
 };
 
 

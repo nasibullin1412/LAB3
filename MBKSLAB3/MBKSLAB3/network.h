@@ -25,23 +25,23 @@ public:
 	void virtual PrintResultToConsole();
 	void virtual CleanResult();
 private:
-	int* parent_ford_belman_;
-	int* distance_max_min_;
-	size_t* parent_max_min_;
-	int** band_width_;
+	std::vector<int>parent_ford_belman_;
+	std::vector<int>distance_max_min_;
+	std::vector<size_t> parent_max_min_;
+	std::vector<std::vector<int> > band_width_;
 	int max;
 	bool find_max_min_path_;
 	bool find_max_flow_;
 	bool find_ford_belman;
 	int max_flow_;
-	int FordFalkerson(int v, int dest, bool* visit, int flow);
+	int FordFalkerson(int v, int dest, std::vector<bool> &visit, int flow);
 	size_t min(const size_t first, const size_t second);
 	int FindMax();
 	void InitAllAndFindSourceDest(size_t &source, size_t &dest);
 	bool CheckSourceDest(const size_t first, const size_t second);
 	bool SetAndCheckVertex(size_t& first, size_t& second);
 	bool PrintPathAndWeight(const size_t first, const size_t second);
-	void PrintArray(const int* array_);
+	void PrintArray(const std::vector<int> &array_);
 };
 
 
