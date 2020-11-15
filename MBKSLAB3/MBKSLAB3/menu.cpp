@@ -29,6 +29,38 @@ char Menu::GetInput(const std::string &mask)
 }
 
 
+void Menu::SecondMenu(IResult& graph, const std::string &mask)
+{
+	if (!ReadGraph(this->ordinary_graph_))
+	{
+		return;
+	}
+	char idx = 0;
+	bool right = false;
+	while (idx != BACK_TO_MAIN_MENU)
+	{
+		this->ShowCapbility(this->ordinary_graph_);
+		idx = this->GetInput(mask);
+		if (idx == PRINT_TO_CONSOLE)
+		{
+			this->PrintToConsole(this->ordinary_graph_);
+		}
+		else
+		{
+			if (idx == BACK_TO_MAIN_MENU)
+			{
+				return;
+			}
+			right = this->DoActionWithGraph(this->ordinary_graph_, idx);
+			if (!right)
+			{
+				system("pause");
+			}
+		}
+	
+	}
+}
+
 bool Menu::ReadGraph(Graph& graph)
 {
 	if (graph.IsReaded())
@@ -73,117 +105,32 @@ void Menu::CommunUser()
 {
 	while (true)
 	{
-
 		system("cls");
 		cout << this->menu;
 		char choice = this->GetInput("1234");
-		char idx = 0;
-		bool right = true;
 		switch (choice)
 		{
-		case ORDINARY_GRAPH: 
+		case ORDINARY_GRAPH:
 		{
-
-			if (!ReadGraph(this->ordinary_graph_))
-			{
-				break;
-			}
-			while (idx != '4')
-			{
-				this->ShowCapbility(this->ordinary_graph_);
-				idx = this->GetInput("12345");
-				switch (idx)
-				{
-				case ORDINARY_PRINT_TO_CONSOLE:
-				{
-					this->PrintToConsole(this->ordinary_graph_);
-					break;
-				}
-				case ORDINARY_BACK_TO_MAIN_MENU:
-				{
-					break;
-				}
-				default:
-					right = this->DoActionWithGraph(this->ordinary_graph_, idx);
-				}
-				if (!right)
-				{
-					system("pause");
-					break;
-				}
-			}
+			std::string mask = "1234";
+			this->SecondMenu(this->ordinary_graph_, mask);
 			break;
 		}
 		case WEIGHT_GRAPH:
 		{
-
-			if (!ReadGraph(this->weight_graph_))
-			{
-				break;
-			}
-			while (idx != '3')
-			{
-				this->ShowCapbility(this->weight_graph_);
-				idx = this->GetInput("1234");
-				switch (idx)
-				{
-				case WEIGHT_PRINT_TO_CONSOLE:
-				{
-					this->PrintToConsole(this->weight_graph_);
-					break;
-				}
-				case WEIGHT_BACK_TO_MENU:
-				{
-					break;
-				}
-				default:
-					right = this->DoActionWithGraph(this->weight_graph_, idx);
-				}
-				if (!right)
-				{
-					system("pause");
-					break;
-				}
-			}
+			std::string mask = "123";
+			this->SecondMenu(this->weight_graph_, mask);
 			break;
 		}
 		case NETWORK:
 		{
-
-			if (!ReadGraph(this->network_))
-			{
-				break;
-			}
-			while (idx != '5')
-			{
-				this->ShowCapbility(this->network_);
-				idx = this->GetInput("123456");
-				switch (idx)
-				{
-				case NETWORK_PRINT_TO_CONSOLE:
-				{
-					this->PrintToConsole(this->network_);
-					break;
-				}
-				case NETWORK_BACK_TO_MENU:
-				{
-					break;
-				}
-				default:
-					right = this->DoActionWithGraph(this->network_, idx);
-				}
-				if (!right)
-				{
-					system("pause");
-					break;
-				}
-			}
+			std::string mask = "12345";
+			this->SecondMenu(this->network_, mask);
 			break;
 		}
 		case EXIT:
 			return;
 		}
-
 	}
 }
 

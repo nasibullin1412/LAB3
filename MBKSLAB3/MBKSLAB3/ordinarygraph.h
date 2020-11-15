@@ -6,7 +6,7 @@
 
 enum ORDINARY_DO_ACTIONS
 {
-	FIND_SKELETON_ = '1',
+	FIND_SKELETON_ = '3',
 	COUNT_EDGE
 };
 

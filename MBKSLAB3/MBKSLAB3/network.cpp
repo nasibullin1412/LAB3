@@ -18,33 +18,10 @@ Network::Network(): Graph()
 
 Network::~Network()
 {
-	/*if (this->parent_ford_belman_)
-	{
-		delete this->parent_ford_belman_;
-		this->parent_ford_belman_ = nullptr;
-	}*/
+
 	this->parent_ford_belman_.clear();
-	/*if (this->distance_max_min_)
-	{
-		delete this->distance_max_min_;
-		this->distance_max_min_ = nullptr;
-	}*/
 	this->distance_max_min_.clear();
-	/*if (this->parent_max_min_)
-	{
-		delete this->parent_max_min_;
-		this->parent_max_min_ = nullptr;
-	}*/
 	this->parent_max_min_.clear();
-	/*if (this->band_width_.empty())
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->band_width_[i];
-		}
-		delete[] this->band_width_;
-		this->band_width_ = nullptr;
-	}*/
 	this->band_width_.clear();
 	this->max = 0;
 	this->find_ford_belman = false;
@@ -57,9 +34,9 @@ Network::~Network()
 
 bool Network::FindMaxMinPath()
 {
-	this->parent_max_min_.resize(this->matrix_row_); //= new size_t[this->matrix_row_];
-	this->distance_max_min_.resize(this->matrix_row_); //= new int[this->matrix_row_];
-	if (this->parent_max_min_.empty() || this->distance_max_min_.empty()) //== nullptr)
+	this->parent_max_min_.resize(this->matrix_row_);
+	this->distance_max_min_.resize(this->matrix_row_);
+	if (this->parent_max_min_.empty() || this->distance_max_min_.empty())
 	{
 		std::cout << "Memory Error" << endl;
 		return false;
@@ -76,9 +53,8 @@ bool Network::FindMaxMinPath()
 	{
 		return false;
 	}
-	//int* max_value_lot = new int[this->matrix_row_+1];
+
 	std::vector<int> max_value_lot(this->matrix_row_ + 1, -1);
-	//bool* visited = new bool[this->matrix_row_];
 	std::vector<bool> visited(this->matrix_row_, true);
 	if (max_value_lot.empty() || visited.empty())
 	{
@@ -109,7 +85,7 @@ bool Network::FindMaxMinPath()
 	cout << endl;
 	cout << "P: ";
 
-	//PrintArray(static_cast<std::vector<int>>(this->parent_max_min_));
+	
 	for (size_t i = 0; i < matrix_row_; i++)
 	{
 		cout << this->parent_max_min_[i] << ' ';
@@ -122,10 +98,6 @@ bool Network::FindMaxMinPath()
 	for (size_t i = 0; i < this->matrix_row_ - 2; i++)
 	{
 		cout << "S { ";
-		/*for (size_t k = 0; k < counts; k++)
-		{
-			cout << max_value_lot[k] + 1 << ' ';
-		}*/
 		this->PrintArray(max_value_lot);
 		cout << "} " << endl;
 		for (size_t k = 0; k < this->matrix_row_; k++)
@@ -185,8 +157,6 @@ bool Network::FindMaxMinPath()
 	}
 	cout << i + 1 << endl;
 	cout << "Total weight: " << this->distance_max_min_[second - 1] << endl;
-	/*delete[] max_value_lot;
-	delete[] visited;*/
 	max_value_lot.clear();
 	visited.clear();
 	return true;
@@ -313,7 +283,7 @@ bool Network::FindMaxFlow()
 	}
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		this->band_width_[i].resize(this->matrix_row_);//new int[this->matrix_row_];
+		this->band_width_[i].resize(this->matrix_row_);
 		if (this->band_width_[i].empty())
 		{
 			cout << "Memory error" << endl;
@@ -324,7 +294,6 @@ bool Network::FindMaxFlow()
 			this->band_width_[i][j] = this->graph_matrix_[i][j];
 		}
 	}
-	//bool* visit = new bool[this->matrix_row_];
 	std::vector<bool> visit(this->matrix_row_);
 	if (visit.empty())
 	{
@@ -342,7 +311,6 @@ bool Network::FindMaxFlow()
 		this->max_flow_ += temp;
 	} while (temp != 0);
 
-	//delete[] visit;
 	visit.clear();
 	return true;
 }
@@ -481,11 +449,12 @@ bool Network::FordBelman()
 void Network::Show—apabilities()
 {
 	cout << "\nYou can do with this graph: " << endl;
-	cout << "1. Find min distance from one top to other by Ford-Belman algorithm" << endl;
-	cout << "2. Find maximum throughput from one top to other by max-min algorithm" << endl;
-	cout << "3. Find maximum flow by Ford-Falkerson alghoritm" << endl;
-	cout << "4. Write result to console" << endl;
-	cout << "5. Exit to main menu" << endl;
+	cout << "1. Write result to console" << endl;
+	cout << "2. Exit to main menu" << endl;
+	cout << "3. Find min distance from one top to other by Ford-Belman algorithm" << endl;
+	cout << "4. Find maximum throughput from one top to other by max-min algorithm" << endl;
+	cout << "5. Find maximum flow by Ford-Falkerson alghoritm" << endl;
+
 }
 
 
@@ -618,49 +587,16 @@ void Network::PrintResultToConsole()
 
 void Network::CleanResult()
 {
-	/*if (this->parent_ford_belman_)
-	{
-		delete this->parent_ford_belman_;
-		this->parent_ford_belman_ = nullptr;
-	}*/
+
 	this->parent_ford_belman_.clear();
-	/*if (this->distance_max_min_)
-	{
-		delete this->distance_max_min_;
-		this->distance_max_min_ = nullptr;
-	}*/
 	this->distance_max_min_.clear();
-	/*if (this->parent_max_min_)
-	{
-		delete this->parent_max_min_;
-		this->parent_max_min_ = nullptr;
-	}*/
 	this->parent_max_min_.clear();
-	/*if (this->band_width_)
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->band_width_[i];
-		}
-		delete[] this->band_width_;
-		this->band_width_ = nullptr;
-	}*/
 	this->band_width_.clear();
 	this->max = 0;
 	this->find_ford_belman = false;
 	this->find_max_flow_ = false;
 	this->find_max_min_path_ = false;
 	this->top_array.clear();
-
-	/*if (this->graph_matrix_ != nullptr)
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->graph_matrix_[i];
-		}
-		delete[] this->graph_matrix_;
-		graph_matrix_ = nullptr;
-	}*/
 	this->graph_matrix_.clear();
 	this->matrix_row_ = 0;
 	this->numb_edge_ = 0;

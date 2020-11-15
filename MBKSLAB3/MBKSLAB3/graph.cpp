@@ -23,7 +23,7 @@ bool Graph::ReadGraph()
 	cin >> name;
 	if (name.length() > myconst::max_file_name || name.length() == 0)
 	{
-		cout << "Name is very big..." << endl;
+		cout << "Error file name..." << endl;
 		return false;
 	}
 	ifstream fin;
@@ -50,8 +50,7 @@ bool Graph::ReadGraph()
 	
 	fin.seekg(0);
 
-	/*this->graph_matrix_ = new int* [this->matrix_row_];
-*/
+	
 	this->graph_matrix_.resize(this->matrix_row_);
 	if (this->graph_matrix_.empty())
 	{
@@ -60,12 +59,7 @@ bool Graph::ReadGraph()
 	}
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		/*this->graph_matrix_[i] = new int[this->matrix_row_];
-		if (this->graph_matrix_[i] == nullptr)
-		{
-			cout << "Memory Error";
-			return false;
-		}*/
+		
 		this->graph_matrix_[i].resize(this->matrix_row_);
 		if (this->graph_matrix_[i].empty())
 		{
@@ -109,15 +103,6 @@ Graph::~Graph()
 
 	this->top_array.clear();
 	this->graph_matrix_.clear();
-	/*if (this->graph_matrix_ != nullptr)
-	{
-		for (size_t i = 0; i < this->matrix_row_; i++)
-		{
-			delete[] this->graph_matrix_[i];
-		}
-		delete[] this->graph_matrix_;
-		graph_matrix_ = nullptr;
-	}*/
 	this->matrix_row_ = 0;
 	this->numb_edge_ = 0;
 }

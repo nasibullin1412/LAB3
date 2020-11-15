@@ -87,10 +87,11 @@ bool OrdinaryGraph::CountDeg()
 void OrdinaryGraph::Show—apabilities()
 {
 	cout << "\nYou can do with this graph: " << endl;
-	cout << "1. Find skeleton" << endl;
-	cout << "2. Count degree" << endl;
-	cout << "3. Write result to console" << endl;
-	cout << "4. Exit to main menu" << endl;
+	cout << "1. Write result to console" << endl;
+	cout << "2. Exit to main menu" << endl;
+	cout << "3. Find skeleton" << endl;
+	cout << "4. Count degree" << endl;
+
 }
 
 bool OrdinaryGraph::DoActions(const char idx)

@@ -19,12 +19,8 @@ enum MainCases
 
 enum  SpecialCases
 {
-	ORDINARY_PRINT_TO_CONSOLE = '3',
-	ORDINARY_BACK_TO_MAIN_MENU,
-	WEIGHT_PRINT_TO_CONSOLE = '2',
-	WEIGHT_BACK_TO_MENU,
-	NETWORK_PRINT_TO_CONSOLE = '4',
-	NETWORK_BACK_TO_MENU
+	PRINT_TO_CONSOLE = '1',
+	BACK_TO_MAIN_MENU
 };
 
 
@@ -47,6 +43,7 @@ private:
 	OrdinaryGraph ordinary_graph_;
 	Network network_;
 	char GetInput(const std::string  &mask);
+	void SecondMenu(IResult& graph, const std::string& mask);
 };
 
 

@@ -9,7 +9,7 @@ using namespace std;
 
 enum WEIGHT_DO_ACTIONS
 {
-	FIND_SKELETON = '1'
+	FIND_SKELETON = '3'
 };
 
 class WeightGraph: public Graph
@@ -27,7 +27,6 @@ public:
 
 private:
 	std::vector<Edge>edge_list_;
-	//size_t** 
 	std::vector<std::vector<size_t> > adj_matrix_skeleton_;
 	size_t numb_edge_;
 	int tot_min_weight_;
