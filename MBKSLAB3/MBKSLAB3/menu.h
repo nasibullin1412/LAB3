@@ -31,6 +31,7 @@ public:
 	Menu();
 	~Menu();
 	void CommunUser();
+	void SecondMenu(Graph& graph, const std::string &mask);
 	bool ReadGraph(Graph& graph);
 	void ShowCapbility(IResult &graph);
 	bool DoActionWithGraph(IResult& graph,const char idx);
@@ -43,7 +44,6 @@ private:
 	OrdinaryGraph ordinary_graph_;
 	Network network_;
 	char GetInput(const std::string  &mask);
-	void SecondMenu(IResult& graph, const std::string& mask);
 };
 
 

@@ -29,9 +29,9 @@ char Menu::GetInput(const std::string &mask)
 }
 
 
-void Menu::SecondMenu(IResult& graph, const std::string &mask)
+void Menu::SecondMenu(Graph& graph, const std::string &mask)
 {
-	if (!ReadGraph(this->ordinary_graph_))
+	if (!ReadGraph(graph))
 	{
 		return;
 	}
@@ -39,11 +39,11 @@ void Menu::SecondMenu(IResult& graph, const std::string &mask)
 	bool right = false;
 	while (idx != BACK_TO_MAIN_MENU)
 	{
-		this->ShowCapbility(this->ordinary_graph_);
+		this->ShowCapbility(graph);
 		idx = this->GetInput(mask);
 		if (idx == PRINT_TO_CONSOLE)
 		{
-			this->PrintToConsole(this->ordinary_graph_);
+			this->PrintToConsole(graph);
 		}
 		else
 		{
@@ -51,7 +51,7 @@ void Menu::SecondMenu(IResult& graph, const std::string &mask)
 			{
 				return;
 			}
-			right = this->DoActionWithGraph(this->ordinary_graph_, idx);
+			right = this->DoActionWithGraph(graph, idx);
 			if (!right)
 			{
 				system("pause");
