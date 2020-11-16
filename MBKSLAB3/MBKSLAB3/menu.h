@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 
-enum MainCases
+enum class MainCases: char
 {
 	ORDINARY_GRAPH = '1',
 	WEIGHT_GRAPH,
@@ -17,13 +17,18 @@ enum MainCases
 	EXIT
 };
 
-enum  SpecialCases
+enum SpecialCases
 {
 	PRINT_TO_CONSOLE = '1',
 	BACK_TO_MAIN_MENU
 };
 
-
+enum class GraphType: size_t
+{
+	ORDINARY_GRAPH = 0,
+	WEIGHT_GRAPH,
+	NETWORK_GRAPH
+};
 
 class Menu
 {
@@ -31,18 +36,13 @@ public:
 	Menu();
 	~Menu();
 	void CommunUser();
-	void SecondMenu(Graph& graph, const std::string &mask);
+	void SecondMenu(const size_t type, const std::string &mask);
 	bool ReadGraph(Graph& graph);
-	void ShowCapbility(IResult &graph);
-	bool DoActionWithGraph(IResult& graph,const char idx);
-	void PrintToConsole(IResult& graph);
-	void ClearResult(IResult& graph);
+	
 
 private:
 	std::string menu;
-	WeightGraph weight_graph_;
-	OrdinaryGraph ordinary_graph_;
-	Network network_;
+	std::vector<Graph *> graphs;
 	char GetInput(const std::string  &mask);
 };
 

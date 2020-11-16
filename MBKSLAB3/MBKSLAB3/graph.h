@@ -5,6 +5,7 @@
 #include "result.h"
 #include <vector>
 
+
 namespace myconst
 {
 	constexpr unsigned int max_file_name = 100;

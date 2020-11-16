@@ -5,12 +5,12 @@
 Menu::Menu()
 {
 	this->menu = "Please select one of the graph:\n 1. Ordinary graph\n 2. Weighet graph\n 3. Network graph\n 4. Exit \nYour choice: ";
-	WeightGraph weighet_graph;
-	this->weight_graph_ = weighet_graph;
-	OrdinaryGraph ordinary_graph;
-	this->ordinary_graph_ = ordinary_graph;
-	Network network;
-	this->network_ = network;
+	Graph* p_ordinary_graph = new OrdinaryGraph();
+	this->graphs.emplace_back(p_ordinary_graph);
+	Graph* p_weighet_graph = new WeightGraph();
+	this->graphs.emplace_back(p_weighet_graph);
+	Graph* p_network = new Network();
+	this->graphs.emplace_back(p_network);
 }
 
 char Menu::GetInput(const std::string &mask)
@@ -29,9 +29,9 @@ char Menu::GetInput(const std::string &mask)
 }
 
 
-void Menu::SecondMenu(Graph& graph, const std::string &mask)
+void Menu::SecondMenu(const size_t choice, const std::string &mask)
 {
-	if (!ReadGraph(graph))
+	if (!ReadGraph(*this->graphs[choice]))
 	{
 		return;
 	}
@@ -39,11 +39,11 @@ void Menu::SecondMenu(Graph& graph, const std::string &mask)
 	bool right = false;
 	while (idx != BACK_TO_MAIN_MENU)
 	{
-		this->ShowCapbility(graph);
+		this->graphs[choice]->Show—apabilities();
 		idx = this->GetInput(mask);
 		if (idx == PRINT_TO_CONSOLE)
 		{
-			this->PrintToConsole(graph);
+			this->graphs[choice]->PrintResultToConsole();
 		}
 		else
 		{
@@ -51,7 +51,7 @@ void Menu::SecondMenu(Graph& graph, const std::string &mask)
 			{
 				return;
 			}
-			right = this->DoActionWithGraph(graph, idx);
+			right = this->graphs[choice]->DoActions(idx);
 			if (!right)
 			{
 				system("pause");
@@ -81,25 +81,6 @@ bool Menu::ReadGraph(Graph& graph)
 	return true;
 }
 
-bool Menu::DoActionWithGraph(IResult& graph, const char idx)
-{
-	return graph.DoActions(idx);
-}
-
-void Menu::ShowCapbility(IResult& graph)
-{
-	graph.Show—apabilities();
-}
-
-void Menu::PrintToConsole(IResult& graph)
-{
-	graph.PrintResultToConsole();
-}
-
-void Menu::ClearResult(IResult &graph)
-{
-	graph.CleanResult();
-}
 
 void Menu::CommunUser()
 {
@@ -108,27 +89,27 @@ void Menu::CommunUser()
 		system("cls");
 		cout << this->menu;
 		char choice = this->GetInput("1234");
-		switch (choice)
+		switch (static_cast<MainCases>(choice))
 		{
-		case ORDINARY_GRAPH:
+		case MainCases::ORDINARY_GRAPH:
 		{
 			std::string mask = "1234";
-			this->SecondMenu(this->ordinary_graph_, mask);
+			this->SecondMenu(static_cast<size_t>(GraphType::ORDINARY_GRAPH), mask);
 			break;
 		}
-		case WEIGHT_GRAPH:
+		case MainCases::WEIGHT_GRAPH:
 		{
 			std::string mask = "123";
-			this->SecondMenu(this->weight_graph_, mask);
+			this->SecondMenu(static_cast<size_t>(GraphType::WEIGHT_GRAPH), mask);
 			break;
 		}
-		case NETWORK:
+		case MainCases::NETWORK:
 		{
 			std::string mask = "12345";
-			this->SecondMenu(this->network_, mask);
+			this->SecondMenu(static_cast<size_t>(GraphType::NETWORK_GRAPH), mask);
 			break;
 		}
-		case EXIT:
+		case MainCases::EXIT:
 			return;
 		}
 	}
@@ -137,4 +118,5 @@ void Menu::CommunUser()
 Menu::~Menu()
 {
 	this->menu.~basic_string();
+	this->graphs.clear();
 }
