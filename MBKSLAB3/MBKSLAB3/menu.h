@@ -36,8 +36,8 @@ public:
 	Menu();
 	~Menu();
 	void CommunUser();
-	void SecondMenu(const size_t type, const std::string &mask);
-	bool ReadGraph(Graph& graph);
+	void SecondMenu(const size_t choice, const std::string &mask);
+	bool ReadGraph(const size_t choice);
 	
 
 private:

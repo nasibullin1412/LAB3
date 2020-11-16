@@ -31,7 +31,7 @@ char Menu::GetInput(const std::string &mask)
 
 void Menu::SecondMenu(const size_t choice, const std::string &mask)
 {
-	if (!ReadGraph(*this->graphs[choice]))
+	if (!ReadGraph(choice))
 	{
 		return;
 	}
@@ -61,9 +61,9 @@ void Menu::SecondMenu(const size_t choice, const std::string &mask)
 	}
 }
 
-bool Menu::ReadGraph(Graph& graph)
+bool Menu::ReadGraph(const size_t idx)
 {
-	if (graph.IsReaded())
+	if (this->graphs[idx]->IsReaded())
 	{
 		cout << "Do you want read this graph again (y/n): ";
 		char choice = this->GetInput("yn");
@@ -71,9 +71,9 @@ bool Menu::ReadGraph(Graph& graph)
 		{
 			return true;
 		}
-		graph.CleanResult();
+		this->graphs[idx]->CleanResult();
 	}
-	if (!graph.ReadGraph())
+	if (!this->graphs[idx]->ReadGraph())
 	{
 		cout << "Error Read Graph..." << endl;
 		return false;
