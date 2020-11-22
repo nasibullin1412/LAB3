@@ -28,7 +28,7 @@ bool Top::Init(const size_t size, const size_t number_top)
 
 int& Top::operator[](const size_t count)
 {
-	if (count > this->size_ || count < 0)
+	if (count > this->size_)
 	{
 		return this->distance_to_oth_[size_];
 	}

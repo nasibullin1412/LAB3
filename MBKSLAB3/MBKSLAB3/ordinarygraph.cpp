@@ -71,12 +71,12 @@ bool OrdinaryGraph::CountDeg()
 	}
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
-		short deg = 0;
+		unsigned short deg = 0;
 		for (size_t j = 0; j < this->matrix_row_; j++)
 		{
 			if (this->graph_matrix_[i][j] != 0)
 			{
-				deg += this->graph_matrix_[i][j];
+				deg += static_cast<unsigned short>(this->graph_matrix_[i][j]);
 			}
 		}
 		this->tops_deg_[i] = deg;

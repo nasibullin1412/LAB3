@@ -34,7 +34,7 @@ private:
 	bool find_max_flow_;
 	bool find_ford_belman;
 	int max_flow_;
-	int FordFalkerson(int v, int dest, std::vector<bool> &visit, int flow);
+	int FordFalkerson(size_t v, size_t dest, std::vector<bool> &visit, size_t flow);
 	size_t min(const size_t first, const size_t second);
 	int FindMax();
 	void InitAllAndFindSourceDest(size_t &source, size_t &dest);

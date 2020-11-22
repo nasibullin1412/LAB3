@@ -65,7 +65,7 @@ bool WeightGraph::MinSkeletonKraskal()
 	}
 
 
-	int count = 0;
+	//int count = 0;
 	size_t size = 0;
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
@@ -89,15 +89,15 @@ bool WeightGraph::MinSkeletonKraskal()
 	{
 		Edge temp = this->PopTask(size);
 		--size;
-		int first = temp.GetFirstTop();
-		int second = temp.GetSecTop();
+		size_t first = temp.GetFirstTop();
+		size_t second = temp.GetSecTop();
 		if (colors[first] != colors[second])
 		{
 			cout << first + 1 << "-" << second + 1 << " ";
 			this->adj_matrix_skeleton_[first][second] = 1;
 			this->adj_matrix_skeleton_[second][first] = 1;
 			this->tot_min_weight_ += temp.GetWeight();
-			int color = 0;
+			size_t color = 0;
 			if (colors[first] < colors[second])
 			{
 				color = colors[second];

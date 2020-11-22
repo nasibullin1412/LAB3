@@ -64,8 +64,8 @@ bool Network::FindMaxMinPath()
 	size_t counts = 2;
 	max_value_lot[0] = first;
 	visited[first] = false;
-	int max = 0;
-	int maxIdx = 0;
+	this->max = 0;
+	size_t maxIdx = 0;
 	cout << "S { ";
 
 	PrintArray(max_value_lot);
@@ -73,15 +73,15 @@ bool Network::FindMaxMinPath()
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		this->distance_max_min_[i] = this->graph_matrix_[first][i];
-		if (max < this->distance_max_min_[i])
+		if (this->max < this->distance_max_min_[i])
 		{
-			max = this->distance_max_min_[i];
+			this->max = this->distance_max_min_[i];
 			maxIdx = i;
 		}
 	}
 	cout << "D: ";
 	
-	PrintArray(this->distance_max_min_);
+	this->PrintArray(this->distance_max_min_);
 	cout << endl;
 	cout << "P: ";
 
@@ -114,7 +114,7 @@ bool Network::FindMaxMinPath()
 					{
 						this->distance_max_min_[k] = this->distance_max_min_[max_value_lot[counts - 1]];
 					}
-					this->parent_max_min_[k] = max_value_lot[counts - 1];
+					this->parent_max_min_[k] = static_cast<size_t>(max_value_lot[counts - 1]);
 				}
 			}
 			if (this->distance_max_min_[k] > max && visited[k])
@@ -143,7 +143,7 @@ bool Network::FindMaxMinPath()
 		visited[maxIdx] = false;
 		max = -myconst::infinity;
 	}
-	int i = second - 1;
+	size_t i = second - 1;
 	if (-(this->distance_max_min_[second - 1]) == myconst::infinity)
 	{
 		cout << endl;
@@ -177,22 +177,22 @@ size_t Network::min(const size_t first, const size_t second)
 
 int Network::FindMax()
 {
-	int max = -(myconst::infinity);
+	int max_ = -(myconst::infinity);
 	for (size_t i = 0; i < this->matrix_row_; i++)
 	{
 		for (size_t j = 0; j < this->matrix_row_; j++)
 		{
-			if (this->graph_matrix_[i][j] > max)
+			if (this->graph_matrix_[i][j] > max_)
 			{
-				max = this->graph_matrix_[i][j];
+				max_ = this->graph_matrix_[i][j];
 			}
 		}
 	}
-	return max;
+	return max_;
 }
 
 
-int Network::FordFalkerson(int v, int dest, std::vector<bool>&visit, int flow)
+int Network::FordFalkerson(size_t v, size_t dest, std::vector<bool>&visit, size_t flow)
 {
 	if (v == dest)
 	{
@@ -307,7 +307,7 @@ bool Network::FindMaxFlow()
 		{
 			visit[i] = false;
 		}
-		temp = this->FordFalkerson(source, dest, visit, flow);
+		temp = this->FordFalkerson(source, dest, visit, static_cast<size_t>(flow));
 		this->max_flow_ += temp;
 	} while (temp != 0);
 
@@ -354,7 +354,7 @@ bool Network::PrintPathAndWeight(const size_t first, const size_t second)
 	{
 		cout << i + 1 << "<-";
 		check_top[i] = true;
-		i = this->parent_ford_belman_[i];
+		i = static_cast<size_t>(this->parent_ford_belman_[i]);
 	}
 	delete[] check_top;
 	if (i != first)
@@ -404,7 +404,7 @@ bool Network::FordBelman()
 		{
 			check = false;
 		}
-		this->parent_ford_belman_[i] = first;
+		this->parent_ford_belman_[i] = static_cast<int>(first);
 	}
 	if (check)
 	{
@@ -432,7 +432,7 @@ bool Network::FordBelman()
 					if (this->top_array[first][i] > this->top_array[first][j] + this->graph_matrix_[j][i])
 					{
 						this->top_array[first][i] = this->top_array[first][j] + this->graph_matrix_[j][i];
-						this->parent_ford_belman_[i] = j;
+						this->parent_ford_belman_[i] = static_cast<int>(j);
 						change = true;
 					}
 				}
